@@ -1,1 +1,19 @@
-const navItems=document.querySelectorAll('.nav-item');const views=document.querySelectorAll('.view');const pageTitle=document.getElementById('pageTitle');const sidebar=document.getElementById('sidebar');const menuButton=document.getElementById('menuButton');const projectDialog=document.getElementById('projectDialog');const titles={dashboard:'Dashboard',projects:'Proyectos',calculator:'Calculadora de materiales',takeoff:'Takeoff','plan-reader':'Plan Reader','product-hub':'Product Hub',library:'Biblioteca técnica',submittals:'Submittals',ai:'IA Nexeron'};function openView(viewId){views.forEach(v=>v.classList.toggle('active',v.id===viewId));navItems.forEach(i=>i.classList.toggle('active',i.dataset.view===viewId));pageTitle.textContent=titles[viewId]||'Nexeron';sidebar.classList.remove('open')}navItems.forEach(i=>i.addEventListener('click',()=>openView(i.dataset.view)));document.querySelectorAll('[data-open-view]').forEach(b=>b.addEventListener('click',()=>openView(b.dataset.openView)));menuButton.addEventListener('click',()=>sidebar.classList.toggle('open'));function openProjectDialog(){projectDialog.showModal();document.getElementById('projectName').focus()}document.getElementById('newProjectButton').addEventListener('click',openProjectDialog);document.getElementById('emptyNewProjectButton').addEventListener('click',openProjectDialog);document.getElementById('saveProjectButton').addEventListener('click',e=>{const n=document.getElementById('projectName').value.trim();if(!n){e.preventDefault();alert('Escribe el nombre del proyecto.');return}alert(`Proyecto "${n}" preparado. La conexión con Supabase se añadirá en la próxima etapa.`)});document.getElementById('globalSearch').addEventListener('input',e=>{const v=e.target.value.trim();e.target.setAttribute('aria-label',v?`Buscando: ${v}`:'Búsqueda global')});
+const navItems=document.querySelectorAll('.nav-item');
+const views=document.querySelectorAll('.view');
+const pageTitle=document.getElementById('pageTitle');
+const sidebar=document.querySelector('.sidebar');
+const menuToggle=document.getElementById('menuToggle');
+const titles={
+  'command-center':'Command Center','projects':'Proyectos','workspace':'Workspace',
+  'plan-reader':'Plan Reader AI','takeoff':'Takeoff','products':'Product Intelligence',
+  'submittals':'Submittals','library':'Biblioteca técnica'
+};
+navItems.forEach(item=>item.addEventListener('click',()=>{
+  const target=item.dataset.view;
+  navItems.forEach(button=>button.classList.remove('active'));
+  item.classList.add('active');
+  views.forEach(view=>view.classList.toggle('active',view.id===target));
+  pageTitle.textContent=titles[target]||'Nexeron';
+  sidebar.classList.remove('open');
+}));
+menuToggle.addEventListener('click',()=>sidebar.classList.toggle('open'));
